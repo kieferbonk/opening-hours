@@ -2,11 +2,12 @@ import React from "react"
 import styled from "styled-components"
 import HourTable from "./components/HourTable"
 import styleConf from "./styles/StyleConf"
+import { default as weekData } from "./data/week.json"
 
 const App: React.FC = () => {
     return (
         <Wrapper>
-            <HourTable />
+            <HourTable data={weekData} />
         </Wrapper>
     )
 }

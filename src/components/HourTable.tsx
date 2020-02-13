@@ -1,16 +1,40 @@
 import React from "react"
 import styled from "styled-components"
-import { default as weekData } from "../data/week.json"
 import Day from "./Day"
 import styleConf from "../styles/StyleConf"
 import clockIcon from "./clock.svg"
 import { parseOpeningTimes } from "../utils/DateUtils"
 
-const HourTable: React.FC = () => {
+interface IProps {
+	data: IWeekObject
+}
+
+interface IWeekObject {
+	monday: IDayObject[] | never[];
+	tuesday: IDayObject[] | never[];
+	wednesday: IDayObject[] | never[];
+	thursday: IDayObject[] | never[];
+	friday: IDayObject[] | never[];
+	saturday: IDayObject[] | never[];
+	sunday: IDayObject[] | never[];
+}
+
+interface IDayObject {
+	type?: string;
+	value?: number;
+}
+
+type TModeledData = {
+	title: string,
+	times?: string,
+	today?: boolean,
+}
+
+const HourTable: React.FC<IProps> = ({data}) => {
     return (
         <Wrapper>
             <Heading>Opening hours</Heading>
-            {parseOpeningTimes(weekData).map((day: { title: string; times?: string; today?: boolean; }) => (
+            {parseOpeningTimes(data).map((day: TModeledData) => (
                 <Day
                     key={day.title}
                     title={day.title}

@@ -10,4 +10,13 @@ describe("Day", () => {
 		expect(container.textContent).toContain('monday')
 		expect(container.textContent).toContain('10 AM - 3:30 PM')
 	})
+
+	it("renders currectly with closed sunday", () => {
+		const container = document.createElement("div")
+		ReactDOM.render(<Day title="sunday" closed={true} />, container)
+
+		expect(container.textContent).toContain('sunday')
+		expect(container.textContent).toContain('Closed')
+		expect(container.textContent).not.toContain('today')
+	})
 })
