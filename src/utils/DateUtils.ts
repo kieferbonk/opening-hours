@@ -2,7 +2,9 @@ import add from "date-fns/add"
 import format from "date-fns/format"
 import last from "lodash/last"
 
-export const convertSecondsToHours = (seconds: number | undefined = 0) => {
+export const convertSecondsToHours = (seconds: number | undefined) => {
+	if (!seconds && seconds !== 0) return null
+
     const date = add(new Date(1970, 1, 1, 0, 0, 0), {
         seconds: seconds && seconds > 86399 ? 86399 : seconds,
     })
@@ -40,7 +42,7 @@ export const parseOpeningTimes = (data: any, today = new Date().getDay()) => {
                 .reduce((acc: string, val: IDay) => {
                     const prefix = val.type === "open" ? "\n" : " - " // add linebreak if not first, dash if closing time
                     const hours = convertSecondsToHours(val.value)
-                    acc += acc.length ? `${prefix} ${hours}` : hours
+                    if (hours) acc += acc.length ? `${prefix} ${hours}` : hours
                     return acc
                 }, "")
 
@@ -49,7 +51,7 @@ export const parseOpeningTimes = (data: any, today = new Date().getDay()) => {
                 const hours = convertSecondsToHours(
                     data[tomorrow].find((n: { type: string; }) => n.type === "close").value,
                 )
-                result.times += ` - ${hours}`
+                if (hours) result.times += ` - ${hours}`
             }
         }
 
